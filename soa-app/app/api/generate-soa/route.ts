@@ -3,7 +3,6 @@ import { prisma } from "@/lib/db";
 import { generateSOANumber } from "@/lib/soaNumber";
 import { generateSOAPDF } from "@/lib/pdfGenerator";
 import { sendSOAEmail } from "@/lib/emailService";
-import { syncSOAToHubSpot } from "@/lib/hubspot";
 import { soaRequestSchema } from "@/lib/validation";
 import { headers } from "next/headers";
 
@@ -113,18 +112,6 @@ export async function POST(req: NextRequest) {
       soaNumber: soa.soaNumber,
       pdfBuffer,
     });
-
-    // Fire-and-forget — HubSpot failure must never block SOA generation
-    syncSOAToHubSpot({
-      requestorName: soa.requestorName,
-      requestorEmail: soa.email,
-      phone: soa.phone,
-      jobTitle: soa.jobTitle,
-      registrationType: soa.registrationType,
-      headcount: soa.headcount,
-      companyName: soa.companyName,
-      registrants: soa.registrants,
-    }).catch((err) => console.error("HubSpot sync error:", err));
 
     return NextResponse.json(
       { success: true, soaNumber: soa.soaNumber, id: soa.id, total: soa.total },
