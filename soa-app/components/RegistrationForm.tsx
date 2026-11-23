@@ -19,12 +19,12 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const REGISTRATION_TYPES = [
-  "Public Training",
-  "In-House Training",
-  "Webinar",
-  "Conference",
-  "Workshop",
-  "Others",
+  "Individual Registration",
+  "Sprout Client Registration",
+  "Group Registration",
+  "Startup Founder",
+  "Group Registration - Client",
+  "Table Registration",
 ];
 
 export default function RegistrationForm() {
