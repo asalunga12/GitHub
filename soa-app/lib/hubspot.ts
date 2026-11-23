@@ -70,8 +70,7 @@ export async function syncSOAToHubSpot({
         company: companyName,
         // HubSpot standard property: number of employees (company headcount)
         numemployees: headcount,
-        // Custom property — create in HubSpot as "registration_type"
-        registration_type: registrationType,
+        event_registration_type: registrationType,
       },
     },
     // Registrants — name, email, company, headcount, registration type
@@ -88,7 +87,7 @@ export async function syncSOAToHubSpot({
             lastname: ln,
             company: companyName,
             numemployees: headcount,
-            registration_type: registrationType,
+            event_registration_type: registrationType,
           },
         };
       }),
