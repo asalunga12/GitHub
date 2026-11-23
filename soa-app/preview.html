@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sprout SOA App — UI Preview</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .tab-btn { transition: all .15s; }
+  .tab-btn.active { background: #16a34a; color: #fff; }
+  .tab-btn:not(.active) { background: #f1f5f9; color: #475569; }
+  .tab-btn:not(.active):hover { background: #e2e8f0; }
+  .page { display: none; }
+  .page.active { display: block; }
+  .badge-paid   { background:#dcfce7; color:#166534; }
+  .badge-unpaid { background:#fef9c3; color:#854d0e; }
+  input, select, textarea {
+    width:100%; padding:.5rem .75rem; border:1px solid #d1d5db;
+    border-radius:.5rem; font-size:.875rem; outline:none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input:focus, select:focus { border-color:#16a34a; box-shadow:0 0 0 3px rgba(22,163,74,.15); }
+  label { display:block; font-size:.8rem; font-weight:600; color:#374151; margin-bottom:.3rem; }
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+<!-- Tab Nav -->
+<div class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-2 overflow-x-auto">
+    <div class="w-7 h-7 bg-green-600 rounded-lg flex items-center justify-center flex-shrink-0 mr-2">
+      <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      </svg>
+    </div>
+    <span class="font-bold text-gray-800 mr-4 flex-shrink-0">Sprout SOA</span>
+    <button class="tab-btn active px-3 py-1.5 rounded-lg text-sm font-medium flex-shrink-0" onclick="show('home',this)">Home</button>
+    <button class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium flex-shrink-0" onclick="show('register',this)">Register</button>
+    <button class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium flex-shrink-0" onclick="show('request-soa',this)">Request SOA</button>
+    <button class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium flex-shrink-0" onclick="show('soa-view',this)">SOA View</button>
+    <button class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium flex-shrink-0" onclick="show('admin',this)">Admin Dashboard</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════════ -->
+<div id="home" class="page active">
+  <div class="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-6">
+    <div class="max-w-xl w-full text-center">
+      <div class="inline-flex items-center justify-center w-20 h-20 bg-green-600 rounded-2xl mb-6 shadow-lg">
+        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+      </div>
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">Sprout Solutions</h1>
+      <p class="text-lg text-gray-500 mb-10">Statement of Account System</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+        <!-- Register card -->
+        <div onclick="show('register',document.querySelectorAll('.tab-btn')[1])" class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 cursor-pointer hover:shadow-md transition-shadow">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+              </svg>
+            </div>
+            <div>
+              <h2 class="font-semibold text-gray-900 mb-1">Register</h2>
+              <p class="text-sm text-gray-500">Register for a Sprout Solutions training event</p>
+            </div>
+          </div>
+        </div>
+        <!-- Request SOA card -->
+        <div onclick="show('request-soa',document.querySelectorAll('.tab-btn')[2])" class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 cursor-pointer hover:shadow-md transition-shadow">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <div>
+              <h2 class="font-semibold text-gray-900 mb-1">Request SOA</h2>
+              <p class="text-sm text-gray-500">Generate a Statement of Account for billing</p>
+            </div>
+          </div>
+        </div>
+        <!-- Admin card -->
+        <div onclick="show('admin',document.querySelectorAll('.tab-btn')[4])" class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 cursor-pointer hover:shadow-md transition-shadow sm:col-span-2">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
+              </svg>
+            </div>
+            <div>
+              <h2 class="font-semibold text-gray-900 mb-1">Admin Dashboard</h2>
+              <p class="text-sm text-gray-500">Manage SOAs, track payments, and export records</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: REGISTER
+════════════════════════════════════════ -->
+<div id="register" class="page">
+  <div class="bg-white border-b border-gray-200">
+    <div class="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+        <span class="font-bold text-gray-900">Sprout Solutions</span>
+      </div>
+      <span class="text-sm text-gray-500">Event Registration</span>
+    </div>
+  </div>
+  <div class="max-w-2xl mx-auto px-4 py-10">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Event Registration</h1>
+      <p class="text-gray-500">Register your interest and our team will follow up with you.</p>
+      <div class="mt-3 inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 text-xs font-medium px-3 py-1.5 rounded-full">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        Syncs directly to HubSpot CRM
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+          <label>Full Name *</label>
+          <input type="text" placeholder="Juan Dela Cruz" value="Maria Santos" />
+        </div>
+        <div>
+          <label>Email Address *</label>
+          <input type="email" placeholder="juan@company.com" value="maria@acmeph.com" />
+        </div>
+        <div>
+          <label>Phone Number *</label>
+          <input type="tel" placeholder="+63 917 000 0000" value="+63 917 123 4567" />
+        </div>
+        <div>
+          <label>Job Title *</label>
+          <input type="text" placeholder="HR Manager" value="HR Manager" />
+        </div>
+        <div>
+          <label>Company Name *</label>
+          <input type="text" placeholder="ABC Corporation" value="ACME Philippines Inc." />
+        </div>
+        <div>
+          <label>Company Headcount *</label>
+          <input type="text" placeholder="e.g. 250" value="350" />
+        </div>
+        <div class="md:col-span-2">
+          <label>Registration Type *</label>
+          <select>
+            <option>Public Training</option>
+            <option selected>In-House Training</option>
+            <option>Webinar</option>
+          </select>
+        </div>
+      </div>
+      <button class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-colors text-base">
+        Submit Registration
+      </button>
+    </div>
+    <p class="text-center text-sm text-gray-400 mt-6">
+      Already registered and need billing?
+      <span onclick="show('request-soa',document.querySelectorAll('.tab-btn')[2])" class="text-green-600 cursor-pointer hover:underline ml-1">Request a Statement of Account</span>
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: REQUEST SOA
+════════════════════════════════════════ -->
+<div id="request-soa" class="page">
+  <div class="bg-white border-b border-gray-200">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+        <span class="font-bold text-gray-900">Sprout Solutions</span>
+      </div>
+      <span class="text-sm text-gray-500">SOA Request Form</span>
+    </div>
+  </div>
+  <div class="max-w-4xl mx-auto px-4 py-10 space-y-8">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Request Statement of Account</h1>
+      <p class="text-gray-500">Fill out the form below. A PDF copy will be sent to your email.</p>
+    </div>
+
+    <!-- Section 1 -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-5 flex items-center gap-2">
+        <span class="w-6 h-6 bg-green-100 text-green-700 rounded-full text-xs flex items-center justify-center font-bold">1</span>
+        Requestor Information
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div><label>Full Name *</label><input value="Maria Santos" /></div>
+        <div><label>Email Address *</label><input value="maria@acmeph.com" /></div>
+        <div><label>Phone Number *</label><input value="+63 917 123 4567" /></div>
+        <div><label>Job Title *</label><input value="HR Manager" /></div>
+        <div>
+          <label>Registration Type *</label>
+          <select><option selected>In-House Training</option><option>Public Training</option><option>Webinar</option></select>
+        </div>
+        <div><label>Company Headcount *</label><input value="350" /></div>
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-5 flex items-center gap-2">
+        <span class="w-6 h-6 bg-green-100 text-green-700 rounded-full text-xs flex items-center justify-center font-bold">2</span>
+        Company Information
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div><label>Company Name *</label><input value="ACME Philippines Inc." /></div>
+        <div><label>Company TIN *</label><input value="123-456-789" /></div>
+        <div class="md:col-span-2"><label>Company Address *</label><input value="123 Ayala Ave., Makati City, Metro Manila 1226" /></div>
+        <div>
+          <label>Are you a Sprout Client?</label>
+          <div class="flex gap-4 mt-2">
+            <label class="flex items-center gap-2 font-normal cursor-pointer"><input type="radio" name="sc" checked class="accent-green-600" /><span class="text-sm text-gray-700">Yes</span></label>
+            <label class="flex items-center gap-2 font-normal cursor-pointer"><input type="radio" name="sc" class="accent-green-600" /><span class="text-sm text-gray-700">No</span></label>
+          </div>
+        </div>
+        <div>
+          <label>Rate per Registrant (PHP, before tax) *</label>
+          <div class="relative"><span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">₱</span><input class="pl-7" value="5,000" /></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+          <span class="w-6 h-6 bg-green-100 text-green-700 rounded-full text-xs flex items-center justify-center font-bold">3</span>
+          Registrants
+          <span class="ml-2 bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded-full">3</span>
+        </h2>
+        <button class="text-sm text-green-600 font-medium flex items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+          Upload CSV
+        </button>
+      </div>
+      <div class="space-y-3">
+        <div class="flex gap-3 items-center p-3 bg-gray-50 rounded-lg border border-gray-200">
+          <span class="w-7 h-7 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0">1</span>
+          <div class="flex-1 grid grid-cols-2 gap-3">
+            <input class="text-sm" value="Anna Reyes" />
+            <input class="text-sm" value="anna@acmeph.com" />
+          </div>
+          <button class="w-8 h-8 flex items-center justify-center text-gray-300 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        </div>
+        <div class="flex gap-3 items-center p-3 bg-gray-50 rounded-lg border border-gray-200">
+          <span class="w-7 h-7 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0">2</span>
+          <div class="flex-1 grid grid-cols-2 gap-3">
+            <input class="text-sm" value="Ben Cruz" />
+            <input class="text-sm" value="ben@acmeph.com" />
+          </div>
+          <button class="w-8 h-8 flex items-center justify-center text-gray-300 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        </div>
+        <div class="flex gap-3 items-center p-3 bg-gray-50 rounded-lg border border-gray-200">
+          <span class="w-7 h-7 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0">3</span>
+          <div class="flex-1 grid grid-cols-2 gap-3">
+            <input class="text-sm" value="Clara Tan" />
+            <input class="text-sm" value="clara@acmeph.com" />
+          </div>
+          <button class="w-8 h-8 flex items-center justify-center text-gray-300 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        </div>
+        <button class="w-full py-2 px-4 border-2 border-dashed border-gray-300 hover:border-green-400 text-gray-500 rounded-lg text-sm font-medium flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          Add Registrant
+        </button>
+      </div>
+    </div>
+
+    <!-- Section 4: Summary -->
+    <div class="bg-gray-50 rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <span class="w-6 h-6 bg-green-100 text-green-700 rounded-full text-xs flex items-center justify-center font-bold">4</span>
+        Financial Summary
+      </h2>
+      <div class="space-y-2 max-w-xs ml-auto">
+        <div class="flex justify-between text-sm text-gray-600"><span>Rate per Registrant</span><span>₱5,000.00</span></div>
+        <div class="flex justify-between text-sm text-gray-600"><span>Number of Registrants</span><span>3</span></div>
+        <div class="flex justify-between text-sm text-gray-600"><span>Subtotal</span><span>₱15,000.00</span></div>
+        <div class="flex justify-between text-sm text-gray-600"><span>VAT (12%)</span><span>₱1,800.00</span></div>
+        <div class="border-t border-gray-300 pt-2 flex justify-between text-base font-bold text-gray-900">
+          <span>Total</span><span class="text-green-700">₱16,800.00</span>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="show('soa-view',document.querySelectorAll('.tab-btn')[3])" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg text-base transition-colors">
+      Generate Statement of Account →
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: SOA VIEW
+════════════════════════════════════════ -->
+<div id="soa-view" class="page">
+  <div class="bg-white border-b border-gray-200">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+        <span class="font-bold text-gray-900 hidden sm:block">Sprout Solutions</span>
+      </div>
+      <div class="flex gap-2">
+        <button class="flex items-center gap-1.5 bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-3 rounded-lg text-sm hover:bg-gray-50">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Download PDF
+        </button>
+        <button class="flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-3 rounded-lg text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+          Pay Online
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <!-- SOA Header -->
+      <div class="bg-green-600 px-8 py-6 text-white">
+        <div class="flex items-start justify-between">
+          <div>
+            <h1 class="text-2xl font-bold">SPROUT SOLUTIONS</h1>
+            <p class="text-green-200 text-sm mt-1">Philippines Inc.</p>
+          </div>
+          <div class="text-right">
+            <h2 class="text-xl font-bold">STATEMENT OF ACCOUNT</h2>
+            <p class="text-green-200 text-sm font-mono mt-1">SOA-2026-0001</p>
+          </div>
+        </div>
+      </div>
+      <div class="px-8 py-6">
+        <!-- Meta -->
+        <div class="flex flex-wrap gap-6 pb-6 border-b border-gray-200 mb-6">
+          <div>
+            <p class="text-xs text-gray-500 uppercase tracking-wide">Date Issued</p>
+            <p class="font-semibold text-gray-900 mt-0.5">November 23, 2026</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 uppercase tracking-wide">Status</p>
+            <span class="inline-flex items-center mt-0.5 px-2.5 py-0.5 rounded-full text-sm font-semibold bg-yellow-100 text-yellow-800">Unpaid</span>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 uppercase tracking-wide">Sprout Client</p>
+            <p class="font-semibold mt-0.5 text-green-700">Yes</p>
+          </div>
+        </div>
+        <!-- Bill To -->
+        <div class="mb-6">
+          <p class="text-xs text-green-600 uppercase tracking-wide font-semibold mb-2">Bill To</p>
+          <p class="font-bold text-gray-900 text-lg">Maria Santos</p>
+          <p class="text-gray-700">ACME Philippines Inc.</p>
+          <p class="text-gray-600 text-sm">123 Ayala Ave., Makati City, Metro Manila 1226</p>
+          <p class="text-gray-600 text-sm">TIN: 123-456-789</p>
+          <p class="text-gray-600 text-sm">maria@acmeph.com</p>
+        </div>
+        <!-- Registrant Table -->
+        <div class="mb-6">
+          <p class="text-xs text-green-600 uppercase tracking-wide font-semibold mb-3">Registrants (3)</p>
+          <div class="rounded-lg border border-gray-200 overflow-hidden">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="bg-green-600 text-white">
+                  <th class="px-4 py-2.5 text-left w-12">#</th>
+                  <th class="px-4 py-2.5 text-left">Name</th>
+                  <th class="px-4 py-2.5 text-left">Email</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+                <tr class="bg-white"><td class="px-4 py-2.5 text-gray-500">1</td><td class="px-4 py-2.5 font-medium text-gray-900">Anna Reyes</td><td class="px-4 py-2.5 text-gray-600">anna@acmeph.com</td></tr>
+                <tr class="bg-gray-50"><td class="px-4 py-2.5 text-gray-500">2</td><td class="px-4 py-2.5 font-medium text-gray-900">Ben Cruz</td><td class="px-4 py-2.5 text-gray-600">ben@acmeph.com</td></tr>
+                <tr class="bg-white"><td class="px-4 py-2.5 text-gray-500">3</td><td class="px-4 py-2.5 font-medium text-gray-900">Clara Tan</td><td class="px-4 py-2.5 text-gray-600">clara@acmeph.com</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Financial Summary -->
+        <div class="flex justify-end mb-6">
+          <div class="w-full max-w-xs space-y-2">
+            <div class="flex justify-between text-sm text-gray-600"><span>Rate per Registrant</span><span>₱5,000.00</span></div>
+            <div class="flex justify-between text-sm text-gray-600"><span>Registrants</span><span>3</span></div>
+            <div class="flex justify-between text-sm text-gray-600"><span>Subtotal</span><span>₱15,000.00</span></div>
+            <div class="flex justify-between text-sm text-gray-600"><span>VAT (12%)</span><span>₱1,800.00</span></div>
+            <div class="flex justify-between font-bold text-base text-white bg-green-600 rounded-lg px-3 py-2.5">
+              <span>Total Amount Due</span><span>₱16,800.00</span>
+            </div>
+          </div>
+        </div>
+        <!-- Payment Details -->
+        <div class="bg-gray-50 rounded-lg border border-gray-200 p-5">
+          <p class="text-xs text-green-600 uppercase tracking-wide font-semibold mb-3">Payment Details</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+            <div><p class="text-gray-500 text-xs">Account Name</p><p class="font-medium text-gray-900 mt-0.5">Sprout Solutions Philippines Inc</p></div>
+            <div><p class="text-gray-500 text-xs">Bank</p><p class="font-medium text-gray-900 mt-0.5">BDO Unibank</p></div>
+            <div><p class="text-gray-500 text-xs">Note</p><p class="font-medium text-gray-900 mt-0.5">Please settle payment upon receipt</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Pay button -->
+    <div class="mt-6 text-center">
+      <button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg text-base transition-colors">
+        Pay ₱16,800.00 Online
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: ADMIN DASHBOARD
+════════════════════════════════════════ -->
+<div id="admin" class="page">
+  <div class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="font-bold text-gray-900 leading-none">Finance Dashboard</h1>
+          <p class="text-xs text-gray-500">Sprout Solutions</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="flex items-center gap-1.5 bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-3 rounded-lg text-sm hover:bg-gray-50">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Export CSV
+        </button>
+        <button onclick="show('request-soa',document.querySelectorAll('.tab-btn')[2])" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg text-sm transition-colors">
+          + New SOA
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <!-- Stats -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+        <p class="text-sm text-gray-500 mb-1">Total SOAs</p>
+        <p class="text-2xl font-bold text-gray-900">24</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+        <p class="text-sm text-gray-500 mb-1">Paid</p>
+        <p class="text-2xl font-bold text-green-700">18</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+        <p class="text-sm text-gray-500 mb-1">Unpaid</p>
+        <p class="text-2xl font-bold text-yellow-700">6</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+        <p class="text-sm text-gray-500 mb-1">Total Revenue</p>
+        <p class="text-2xl font-bold text-green-700">₱403,200</p>
+      </div>
+    </div>
+    <!-- Filters -->
+    <div class="flex flex-col sm:flex-row gap-3 mb-6">
+      <div class="relative flex-1">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input class="pl-9 text-sm" placeholder="Search by SOA number, company, or requestor..." />
+      </div>
+      <select class="w-auto text-sm">
+        <option>All Statuses</option>
+        <option>Unpaid</option>
+        <option>Paid</option>
+        <option>Cancelled</option>
+      </select>
+    </div>
+    <!-- Table -->
+    <div class="overflow-x-auto rounded-xl border border-gray-200">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <th class="px-4 py-3 text-left font-semibold text-gray-600">SOA Number</th>
+            <th class="px-4 py-3 text-left font-semibold text-gray-600">Company</th>
+            <th class="px-4 py-3 text-left font-semibold text-gray-600">Requestor</th>
+            <th class="px-4 py-3 text-right font-semibold text-gray-600">Total</th>
+            <th class="px-4 py-3 text-left font-semibold text-gray-600">Status</th>
+            <th class="px-4 py-3 text-left font-semibold text-gray-600">Date</th>
+            <th class="px-4 py-3 text-left font-semibold text-gray-600">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 font-mono text-xs text-green-700 font-semibold">SOA-2026-0001</td>
+            <td class="px-4 py-3 font-medium text-gray-900">ACME Philippines Inc.</td>
+            <td class="px-4 py-3 text-gray-600">Maria Santos</td>
+            <td class="px-4 py-3 text-right font-semibold text-gray-900">₱16,800.00</td>
+            <td class="px-4 py-3"><span class="badge-unpaid px-2.5 py-0.5 rounded-full text-xs font-medium">Unpaid</span></td>
+            <td class="px-4 py-3 text-gray-500 text-xs">Nov 23, 2026</td>
+            <td class="px-4 py-3">
+              <div class="flex items-center gap-1">
+                <button onclick="show('soa-view',document.querySelectorAll('.tab-btn')[3])" class="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded" title="View"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
+                <button class="p-1.5 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded" title="Download PDF"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>
+                <button class="p-1.5 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded" title="Mark Paid"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></button>
+                <button class="p-1.5 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded" title="Resend Email"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 font-mono text-xs text-green-700 font-semibold">SOA-2026-0002</td>
+            <td class="px-4 py-3 font-medium text-gray-900">GlobalTech Corp</td>
+            <td class="px-4 py-3 text-gray-600">Luis Gomez</td>
+            <td class="px-4 py-3 text-right font-semibold text-gray-900">₱33,600.00</td>
+            <td class="px-4 py-3"><span class="badge-paid px-2.5 py-0.5 rounded-full text-xs font-medium">Paid</span></td>
+            <td class="px-4 py-3 text-gray-500 text-xs">Nov 20, 2026</td>
+            <td class="px-4 py-3">
+              <div class="flex items-center gap-1">
+                <button class="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
+                <button class="p-1.5 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>
+                <button class="p-1.5 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 font-mono text-xs text-green-700 font-semibold">SOA-2026-0003</td>
+            <td class="px-4 py-3 font-medium text-gray-900">Sunrise Manufacturing</td>
+            <td class="px-4 py-3 text-gray-600">Joy dela Vega</td>
+            <td class="px-4 py-3 text-right font-semibold text-gray-900">₱22,400.00</td>
+            <td class="px-4 py-3"><span class="badge-paid px-2.5 py-0.5 rounded-full text-xs font-medium">Paid</span></td>
+            <td class="px-4 py-3 text-gray-500 text-xs">Nov 18, 2026</td>
+            <td class="px-4 py-3">
+              <div class="flex items-center gap-1">
+                <button class="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
+                <button class="p-1.5 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>
+                <button class="p-1.5 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 font-mono text-xs text-green-700 font-semibold">SOA-2026-0004</td>
+            <td class="px-4 py-3 font-medium text-gray-900">BrightPath Solutions</td>
+            <td class="px-4 py-3 text-gray-600">Carlo Reyes</td>
+            <td class="px-4 py-3 text-right font-semibold text-gray-900">₱11,200.00</td>
+            <td class="px-4 py-3"><span class="badge-unpaid px-2.5 py-0.5 rounded-full text-xs font-medium">Unpaid</span></td>
+            <td class="px-4 py-3 text-gray-500 text-xs">Nov 15, 2026</td>
+            <td class="px-4 py-3">
+              <div class="flex items-center gap-1">
+                <button class="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
+                <button class="p-1.5 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>
+                <button class="p-1.5 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></button>
+                <button class="p-1.5 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex items-center justify-between mt-6">
+      <p class="text-sm text-gray-500">Page 1 of 2 (24 total)</p>
+      <div class="flex gap-2">
+        <button class="bg-white border border-gray-300 text-gray-700 font-semibold py-1.5 px-3 rounded-lg text-sm opacity-50" disabled>Previous</button>
+        <button class="bg-white border border-gray-300 text-gray-700 font-semibold py-1.5 px-3 rounded-lg text-sm hover:bg-gray-50">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
