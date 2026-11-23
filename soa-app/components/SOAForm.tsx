@@ -16,6 +16,10 @@ const registrantSchema = z.object({
 const formSchema = z.object({
   requestorName: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
+  phone: z.string().min(7, "Phone number is required"),
+  jobTitle: z.string().min(1, "Job title is required"),
+  registrationType: z.string().min(1, "Registration type is required"),
+  headcount: z.string().min(1, "Headcount is required"),
   companyName: z.string().min(2, "Company name is required"),
   companyAddress: z.string().min(5, "Address is required"),
   tin: z.string().min(9, "TIN must be at least 9 digits"),
@@ -26,6 +30,15 @@ const formSchema = z.object({
 });
 
 type FormValues = z.infer<typeof formSchema>;
+
+const REGISTRATION_TYPES = [
+  "Public Training",
+  "In-House Training",
+  "Webinar",
+  "Conference",
+  "Workshop",
+  "Others",
+];
 
 function formatCurrency(n: number) {
   return new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP" }).format(n);
@@ -41,6 +54,10 @@ export default function SOAForm() {
     defaultValues: {
       requestorName: "",
       email: "",
+      phone: "",
+      jobTitle: "",
+      registrationType: "",
+      headcount: "",
       companyName: "",
       companyAddress: "",
       tin: "",
@@ -85,10 +102,10 @@ export default function SOAForm() {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        {/* Honeypot - hidden from users */}
+        {/* Honeypot */}
         <input {...register("honeypot")} type="text" className="hidden" tabIndex={-1} autoComplete="off" />
 
-        {/* Section: Requestor Info */}
+        {/* Section 1: Requestor Info */}
         <div className="card">
           <h2 className="text-lg font-semibold text-gray-900 mb-5 flex items-center gap-2">
             <span className="w-6 h-6 bg-green-100 text-green-700 rounded-full text-xs flex items-center justify-center font-bold">1</span>
@@ -106,10 +123,39 @@ export default function SOAForm() {
               <input {...register("email")} type="email" className="input-field" placeholder="juan@company.com" />
               {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
             </div>
+            <div>
+              <label className="form-label">Phone Number *</label>
+              <input {...register("phone")} type="tel" className="input-field" placeholder="+63 917 000 0000" />
+              {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone.message}</p>}
+            </div>
+            <div>
+              <label className="form-label">Job Title *</label>
+              <input {...register("jobTitle")} className="input-field" placeholder="HR Manager" />
+              {errors.jobTitle && <p className="text-xs text-red-500 mt-1">{errors.jobTitle.message}</p>}
+            </div>
+            <div>
+              <label className="form-label">Registration Type *</label>
+              <select {...register("registrationType")} className="input-field bg-white">
+                <option value="">Select registration type</option>
+                {REGISTRATION_TYPES.map((type) => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </select>
+              {errors.registrationType && <p className="text-xs text-red-500 mt-1">{errors.registrationType.message}</p>}
+            </div>
+            <div>
+              <label className="form-label">Company Headcount *</label>
+              <input
+                {...register("headcount")}
+                className="input-field"
+                placeholder="e.g. 250"
+              />
+              {errors.headcount && <p className="text-xs text-red-500 mt-1">{errors.headcount.message}</p>}
+            </div>
           </div>
         </div>
 
-        {/* Section: Company Info */}
+        {/* Section 2: Company Info */}
         <div className="card">
           <h2 className="text-lg font-semibold text-gray-900 mb-5 flex items-center gap-2">
             <span className="w-6 h-6 bg-green-100 text-green-700 rounded-full text-xs flex items-center justify-center font-bold">2</span>
@@ -139,7 +185,6 @@ export default function SOAForm() {
                   <label key={label} className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="radio"
-                      value={label}
                       onChange={() => setValue("sproutClient", value)}
                       defaultChecked={!value}
                       name="sproutClient"
@@ -168,7 +213,7 @@ export default function SOAForm() {
           </div>
         </div>
 
-        {/* Section: Registrants */}
+        {/* Section 3: Registrants */}
         <div className="card">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
@@ -209,7 +254,7 @@ export default function SOAForm() {
           )}
         </div>
 
-        {/* Section: Summary */}
+        {/* Section 4: Summary */}
         <div className="card bg-gray-50">
           <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <span className="w-6 h-6 bg-green-100 text-green-700 rounded-full text-xs flex items-center justify-center font-bold">4</span>

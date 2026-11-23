@@ -3,17 +3,16 @@ import { prisma } from "@/lib/db";
 import { generateSOANumber } from "@/lib/soaNumber";
 import { generateSOAPDF } from "@/lib/pdfGenerator";
 import { sendSOAEmail } from "@/lib/emailService";
+import { syncSOAToHubSpot } from "@/lib/hubspot";
 import { soaRequestSchema } from "@/lib/validation";
 import { headers } from "next/headers";
 
-// Simple in-memory rate limit store (replace with Redis in production)
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
-  const windowMs = 60_000; // 1 minute
+  const windowMs = 60_000;
   const max = 5;
-
   const record = rateLimitMap.get(ip);
   if (!record || now > record.resetAt) {
     rateLimitMap.set(ip, { count: 1, resetAt: now + windowMs });
@@ -25,7 +24,6 @@ function checkRateLimit(ip: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
-  // Rate limiting
   const headersList = await headers();
   const forwarded = headersList.get("x-forwarded-for");
   const ip = forwarded ? forwarded.split(",")[0].trim() : "unknown";
@@ -44,7 +42,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  // Validate input
   const parsed = soaRequestSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
@@ -55,26 +52,26 @@ export async function POST(req: NextRequest) {
 
   const data = parsed.data;
 
-  // Honeypot check
   if (data.honeypot) {
     return NextResponse.json({ error: "Bot detected" }, { status: 400 });
   }
 
-  // Calculations
   const subtotal = data.rate * data.registrants.length;
   const vat = subtotal * 0.12;
   const total = subtotal + vat;
 
   try {
-    // Generate unique SOA number
     const soaNumber = await generateSOANumber();
 
-    // Save to database
     const soa = await prisma.statementOfAccount.create({
       data: {
         soaNumber,
         requestorName: data.requestorName,
         email: data.email,
+        phone: data.phone,
+        jobTitle: data.jobTitle,
+        registrationType: data.registrationType,
+        headcount: data.headcount,
         companyName: data.companyName,
         companyAddress: data.companyAddress,
         tin: data.tin,
@@ -94,7 +91,6 @@ export async function POST(req: NextRequest) {
       include: { registrants: true },
     });
 
-    // Generate PDF
     const pdfBuffer = await generateSOAPDF({
       soaNumber: soa.soaNumber,
       requestorName: soa.requestorName,
@@ -111,7 +107,6 @@ export async function POST(req: NextRequest) {
       createdAt: soa.createdAt,
     });
 
-    // Send email
     await sendSOAEmail({
       to: soa.email,
       requestorName: soa.requestorName,
@@ -119,13 +114,20 @@ export async function POST(req: NextRequest) {
       pdfBuffer,
     });
 
+    // Fire-and-forget — HubSpot failure must never block SOA generation
+    syncSOAToHubSpot({
+      requestorName: soa.requestorName,
+      requestorEmail: soa.email,
+      phone: soa.phone,
+      jobTitle: soa.jobTitle,
+      registrationType: soa.registrationType,
+      headcount: soa.headcount,
+      companyName: soa.companyName,
+      registrants: soa.registrants,
+    }).catch((err) => console.error("HubSpot sync error:", err));
+
     return NextResponse.json(
-      {
-        success: true,
-        soaNumber: soa.soaNumber,
-        id: soa.id,
-        total: soa.total,
-      },
+      { success: true, soaNumber: soa.soaNumber, id: soa.id, total: soa.total },
       { status: 201 }
     );
   } catch (error) {

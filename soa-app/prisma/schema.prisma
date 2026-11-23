@@ -8,23 +8,27 @@ datasource db {
 }
 
 model StatementOfAccount {
-  id             String   @id @default(uuid())
-  soaNumber      String   @unique
-  requestorName  String
-  email          String
-  companyName    String
-  companyAddress String
-  tin            String
-  sproutClient   Boolean
-  rate           Float
-  subtotal       Float
-  vat            Float
-  total          Float
-  status         String   @default("Unpaid")
-  stripeSessionId String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  registrants    Registrant[]
+  id               String   @id @default(uuid())
+  soaNumber        String   @unique
+  requestorName    String
+  email            String
+  phone            String   @default("")
+  jobTitle         String   @default("")
+  registrationType String   @default("")
+  headcount        String   @default("")
+  companyName      String
+  companyAddress   String
+  tin              String
+  sproutClient     Boolean
+  rate             Float
+  subtotal         Float
+  vat              Float
+  total            Float
+  status           String   @default("Unpaid")
+  stripeSessionId  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  registrants      Registrant[]
 }
 
 model Registrant {
